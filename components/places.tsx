@@ -16,5 +16,25 @@ type PlacesProps = {
 };
 
 export default function Places({ setOffice }: PlacesProps) {
-  return <div>Places</div>;
+  const {
+    ready,
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete();
+
+  console.log(status, data);
+
+  return (
+    <Combobox onSelect={() => {}}>
+      <ComboboxInput
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        disabled={!ready}
+        className="combobox-input"
+        placeholder="Search office address"
+      />
+    </Combobox>
+  );
 }

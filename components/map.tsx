@@ -14,7 +14,40 @@ type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
 export default function Map() {
-  return <div>Map</div>;
+  const [office, setOffice] = useState<LatLngLiteral>();
+  const mapRef = useRef<GoogleMap>();
+  const center = useMemo<LatLngLiteral>(() => ({ lat: 43, lng: -80 }), []);
+  const options = useMemo<MapOptions>(
+    () => ({
+      mapId: "cd55c79702df5045",
+      disableDefaultUI: true,
+    }),
+    []
+  );
+  const onLoad = useCallback((map) => (mapRef.current = map), []);
+
+  return (
+    <div className="container">
+      <div className="controls">
+        <h1>Commute?</h1>
+        <Places
+          setOffice={(position) => {
+            setOffice(position);
+            mapRef.current?.panTo(position);
+          }}
+        />
+      </div>
+      <div className="map">
+        <GoogleMap
+          zoom={10}
+          center={center}
+          mapContainerClassName="map-container"
+          options={options}
+          onLoad={onLoad}
+        ></GoogleMap>
+      </div>
+    </div>
+  );
 }
 
 const defaultOptions = {

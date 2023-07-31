@@ -24,7 +24,7 @@ export default function Map() {
     }),
     []
   );
-  const onLoad = useCallback((map) => (mapRef.current = map), []);
+  const onLoad = useCallback((map: any) => (mapRef.current = map), []);
   const houses = useMemo(() => generateHouses(center), [center]);
 
   const fetchDirections = (house: LatLngLiteral) => {

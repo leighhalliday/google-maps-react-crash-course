@@ -1,13 +1,8 @@
 import { useState, useMemo, useCallback, useRef } from "react";
-import {
-  GoogleMap,
-  Marker,
-  DirectionsRenderer,
-  Circle,
-  MarkerClusterer,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, DirectionsRenderer, Circle, MarkerClusterer } from "@react-google-maps/api";
 import Places from "./places";
 import Distance from "./distance";
+import { Clusterer } from "@react-google-maps/marker-clusterer";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -92,8 +87,9 @@ export default function Map() {
               />
 
               <MarkerClusterer>
-                {(clusterer) =>
-                  houses.map((house) => (
+                {(clusterer: Clusterer) => (
+                  <>
+                    {houses.map((house: google.maps.LatLngLiteral) => (
                     <Marker
                       key={house.lat}
                       position={house}
@@ -102,8 +98,9 @@ export default function Map() {
                         fetchDirections(house);
                       }}
                     />
-                  ))
-                }
+                    ))}
+                  </>
+                )}
               </MarkerClusterer>
 
               <Circle center={office} radius={15000} options={closeOptions} />
